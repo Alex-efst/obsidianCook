@@ -1,38 +1,41 @@
 import sqlite3 as sql
 
-ingredients_list = []
-ingredients = None
+ingredients = 1
+instructions = 2
 
-instructions_list = []
-instructions = None
+def input_cycle_user(user_input):
+    input_list = []
+
+    #Message condition
+    if user_input == 1:
+        message_input = "\nInsert ingredients: \n--- to quit \nEnter to continue \n"
+    elif user_input == 2:
+        message_input = "\nInsert instructions: \n--- to quit \nEnter to continue \n"
+    else:
+        print ("We cooked.... hahaha")
+
+#Loop function for Input user
+    while user_input != "":
+        user_input = input(message_input)
+        
+        
+        if user_input == "---":
+            break
+        elif user_input == "":
+            pass
+        else:
+            input_list.append(user_input)
+            print (f"Current user_input: {input_list}")
+    user_input=", ".join(input_list)
+    return user_input
+
 
 
 title = input('Name of receipe: \n')
 
-while ingredients != "":
-    ingredients = input('\ningredient: \n--- to quit \nEnter to continue \n')
-    
-    if ingredients == "---":
-        break
-    elif ingredients == "":
-        pass
-    else:
-        ingredients_list.append(ingredients)
-        print (f"Current ingredients: {ingredients_list}")
-ingredients=", ".join(ingredients_list)
+ingredients = input_cycle_user(ingredients) #Input ingredients
+instructions = input_cycle_user(instructions) #Input instructions
 
-#Add Instructions
-while instructions != "":
-    instructions = input('\ninstructions: \n--- to quit \nEnter to continue \n')
-    
-    if instructions == "---":
-        break
-    elif instructions == "":
-        pass
-    else:
-        instructions_list.append(instructions)
-        print (f"Current instructions: {instructions_list}\n")
-instructions=", ".join(instructions_list)
 
 #Save receipe
 save = input("Do you wanna save the receipe: y/n \n")
@@ -47,7 +50,6 @@ while True:
 
         cur.execute("INSERT INTO receipes (title, ingredients, instructions) VALUES(?, ?, ?)",
                                                                         (title, ingredients, instructions))
-
         conn.commit()
 
         cur.close()
